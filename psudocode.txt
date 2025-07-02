@@ -1,1 +1,12 @@
-Classes. 
+Classes:
+Board Class:
+    Knows: the grid state, game rules
+    does: Manages pieces, validates moves, detects game outcomes
+
+Player class:
+    Knows:  palyers game and symbol
+    Does: gets valid input from user
+
+Game Class:
+    Knows: the board, the player, whose turn it is
+    Does: runs the game flow, coordinates between objects
