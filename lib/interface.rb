@@ -2,7 +2,7 @@
 
 # Module for retreiving and validating user input from the command line
 module Interface
-  def retrieve_column(max_columns)
+  def self.retrieve_column(max_columns)
     loop do
       puts "Enter column (1-#{max_columns}):"
       input = gets.chomp.to_i
