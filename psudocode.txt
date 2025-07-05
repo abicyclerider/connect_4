@@ -4,9 +4,19 @@ Board Class:
     does: Manages pieces, validates moves, detects game outcomes
 
 Player class:
-    Knows:  palyers game and symbol
+    Knows:  palyers symbol
     Does: gets valid input from user
 
 Game Class:
     Knows: the board, the player, whose turn it is
     Does: runs the game flow, coordinates between objects
+
+Display class:
+    Knows: nothig
+    Does: display's board state
+
+feature 1.: Displays board. 
+    game will call display. Display displays empty board. 
+feature 2. Player is asked for a column
+
+    and asks a user which column to drop a piece into. Main begins new game. Game object displays "Welcome to connetct four. Displays empyt board. Game asks Player 1 to select a column to drop a piece into. Player_1 checks with board"
