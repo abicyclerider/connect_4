@@ -18,5 +18,4 @@ Display class:
 feature 1.: Displays board. 
     game will call display. Display displays empty board. 
 feature 2. Player is asked for a column
-
-    and asks a user which column to drop a piece into. Main begins new game. Game object displays "Welcome to connetct four. Displays empyt board. Game asks Player 1 to select a column to drop a piece into. Player_1 checks with board"
+    Player 1 asks which column 

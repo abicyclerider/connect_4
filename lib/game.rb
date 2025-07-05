@@ -2,21 +2,21 @@
 
 require_relative './display'
 require_relative './player'
+require_relative './board'
 
 # Class for handling the logic of the game flow
 class Game
-  attr_accessor :board_state
+  attr_reader :board
 
-  EMPTY_BOARD = Array.new(6) { Array.new(7, ' ') }.freeze
-
-  def initialize(board_state)
-    @board_state = board_state
-    @players = []
+  def initialize
+    @board = Board.empty
+    @players = [Player.new('X', Board::NUMBER_COLUMNS), Player.new('O', Board::NUMBER_COLUMNS)]
+    @current_player = @players[0]
   end
 
   def self.create_from_beginning
-    game = new(EMPTY_BOARD)
-    Display.board(game.board_state)
+    game = new
+    Display.board(game.board.board_state)
     game
   end
 end
