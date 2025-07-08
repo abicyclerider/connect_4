@@ -85,6 +85,10 @@ describe Board do
         result = connected.check_win?('X', [2, 2])
         expect(result).to be true
       end
+      it 'returns true for a diagonal' do
+        result = connected.check_win?('X', [3, 3])
+        expect(result).to be true
+      end
 
     end
   end
