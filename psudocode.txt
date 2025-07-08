@@ -15,7 +15,9 @@ Display class:
     Knows: nothig
     Does: display's board state
 
-feature 1.: Displays board. 
+feature 1.: Displays board. (Done)
     game will call display. Display displays empty board. 
-feature 2. Player is asked for a column
-    Player 1 asks which column 
+feature 2. Game tells Interface asks player for a column. (Done)
+feature 3. Board can tell you what row a piece drops to in a given column
+feature 4. Board tries to add a the piece to a given column. If it is possible, it adds the piece and returns true
+feature 5. Board can detect if four pieces are connected 

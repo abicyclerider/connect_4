@@ -1,0 +1,91 @@
+# frozen_string_literal: true
+
+require_relative '../lib/board'
+
+describe Board do
+  describe '#find_empty_row' do
+    context 'When the board is empty' do
+      let(:bottom_row) { 0 }
+      subject(:empty_board) { described_class.empty }
+      it 'returns bottom row of the board' do
+        result = empty_board.find_empty_row(0)
+        expect(result).to eq(bottom_row)
+      end
+    end
+    context 'When the board is diagonal' do
+      subject(:diagonal_board) do
+        diagonal = [
+          ['X', 'X', 'X', 'X', 'X', 'X', ' '],
+          ['X', 'X', 'X', 'X', 'X', ' ', ' '],
+          ['X', 'X', 'X', 'X', ' ', ' ', ' '],
+          ['X', 'X', 'X', ' ', ' ', ' ', ' '],
+          ['X', 'X', ' ', ' ', ' ', ' ', ' '],
+          ['X', ' ', ' ', ' ', ' ', ' ', ' ']
+        ]
+        described_class.new(diagonal)
+      end
+      it 'returns nil for the first column' do
+        result = diagonal_board.find_empty_row(0)
+        expect(result).to be_nil
+      end
+      it 'returns the top row for the second column' do
+        result = diagonal_board.find_empty_row(1)
+        expect(result).to eq(Board::NUMBER_ROWS - 1)
+      end
+    end
+  end
+  describe '#add_piece' do
+    context 'When the board is diagonal' do
+      subject(:diagonal_board) do
+        diagonal = [
+          ['X', 'X', 'X', 'X', 'X', 'X', ' '],
+          ['X', 'X', 'X', 'X', 'X', ' ', ' '],
+          ['X', 'X', 'X', 'X', ' ', ' ', ' '],
+          ['X', 'X', 'X', ' ', ' ', ' ', ' '],
+          ['X', 'X', ' ', ' ', ' ', ' ', ' '],
+          ['X', ' ', ' ', ' ', ' ', ' ', ' ']
+        ]
+        described_class.new(diagonal)
+      end
+      let(:piece_added) do
+        [
+          ['X', 'X', 'X', 'X', 'X', 'X', ' '],
+          ['X', 'X', 'X', 'X', 'X', ' ', ' '],
+          ['X', 'X', 'X', 'X', ' ', ' ', ' '],
+          ['X', 'X', 'X', ' ', ' ', ' ', ' '],
+          ['X', 'X', ' ', ' ', ' ', ' ', ' '],
+          ['X', 'X', ' ', ' ', ' ', ' ', ' ']
+        ]
+      end
+      it 'adds the piece to the second column' do
+        result = diagonal_board.add_piece?('X', 1)
+        expect(diagonal_board.board_state).to eq(piece_added)
+        expect(result).to be true
+      end
+    end
+  end
+  describe '#check_win?' do
+    context 'When four pieces are connected in a row' do
+      subject(:connected) do
+        connected = [
+          [' ', ' ', 'X', 'X', 'X', ' ', ' '],
+          [' ', ' ', ' ', ' ', ' ', ' ', 'X'],
+          ['X', 'X', 'X', 'X', 'X', 'X', ' '],
+          [' ', ' ', ' ', 'X', ' ', 'X', ' '],
+          [' ', ' ', 'X', ' ', ' ', ' ', ' '],
+          [' ', 'X', ' ', ' ', ' ', ' ', ' ']
+        ]
+        described_class.new(connected)
+      end
+      it 'returns true when the end piece is checked' do
+        result = connected.check_win?('X', [2, 0])
+        expect(result).to be true
+      end
+      it 'returns true when the piece is in the middle' do
+        result = connected.check_win?('X', [2, 2])
+        expect(result).to be true
+      end
+
+    end
+  end
+end
