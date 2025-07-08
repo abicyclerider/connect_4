@@ -71,9 +71,9 @@ describe Board do
           [' ', ' ', 'X', 'X', 'X', ' ', ' '],
           [' ', ' ', ' ', ' ', ' ', ' ', 'X'],
           ['X', 'X', 'X', 'X', 'X', 'X', ' '],
-          [' ', ' ', ' ', 'X', ' ', 'X', ' '],
-          [' ', ' ', 'X', ' ', ' ', ' ', ' '],
-          [' ', 'X', ' ', ' ', ' ', ' ', ' ']
+          [' ', 'X', ' ', 'X', ' ', 'X', ' '],
+          [' ', ' ', 'X', ' ', ' ', 'X', ' '],
+          [' ', 'X', ' ', 'X', ' ', 'X', ' ']
         ]
         described_class.new(connected)
       end
@@ -85,11 +85,28 @@ describe Board do
         result = connected.check_win?('X', [2, 2])
         expect(result).to be true
       end
-      it 'returns true for a diagonal' do
+      it 'returns true for negative diagonal' do
         result = connected.check_win?('X', [3, 3])
         expect(result).to be true
       end
+      it 'returns true for positive diagonal' do
+        result = connected.check_win?('X', [5, 3])
+        expect(result).to be true
+      end
 
+      it 'returns true for a column' do
+        result = connected.check_win?('X', [2, 5])
+        expect(result).to be true
+      end
+
+      it 'returns false for three pieces in a row' do
+        result = connected.check_win?('X', [0, 2])
+        expect(result).to be false
+      end
+      it 'returns false for non-linear connection' do
+        result = connected.check_win?('X', [1, 6])
+        expect(result).to be false
+      end
     end
   end
 end
