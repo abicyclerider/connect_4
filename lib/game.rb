@@ -23,6 +23,10 @@ class Game
 
   def take_turn(player = @current_player)
     puts "Player #{player.symbol}"
-    Interface.retrieve_column(Board::NUMBER_COLUMNS)
+    success = false
+    until success
+      chosen_column = Interface.retrieve_column(Board::NUMBER_COLUMNS)
+      success = @board.add_piece?(player.symbol, chosen_column)
+    end
   end
 end

@@ -29,6 +29,18 @@ describe Game do
           game.take_turn
         end
       end
+      context 'When a user takes a turn and enters an available position' do
+        let(:empty_board) { instance_double(Board, Board::EMPTY_BOARD) }
+        before do
+          allow(game).to receive(:puts)
+          allow(Interface).to receive(:retrieve_column).with(Board::NUMBER_COLUMNS).and_return(0)
+          allow(Board).to receive(:add_piece?).with('X', 0).and_return(true)
+        end
+        it 'adds the piece to the board' do
+          expect(empty_board).to_receive(:add_piece)
+          game.take_turn
+        end
+      end
     end
   end
 end

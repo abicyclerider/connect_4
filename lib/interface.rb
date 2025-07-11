@@ -4,9 +4,9 @@
 module Interface
   def self.retrieve_column(max_columns)
     loop do
-      puts "Enter column (1-#{max_columns}):"
+      puts "Enter column (0-#{max_columns - 1}):"
       input = gets.chomp.to_i
-      return input if input.between?(1, max_columns)
+      return input if input.between?(0, max_columns - 1)
     end
   end
 end
