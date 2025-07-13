@@ -18,7 +18,7 @@ describe Interface do
       end
       context 'when user inputs three invalid values, then valid input' do
         before do
-          allow(Interface).to receive(:gets).and_return('0', 'abc', '8', '3')
+          allow(Interface).to receive(:gets).and_return('99', '17', '8', '3')
         end
 
         it 'asks for valid input 4 times' do

@@ -7,6 +7,6 @@ module Display
   end
 
   def self.format_grid(grid)
-    grid.map(&:join).join("\n")
+    grid.reverse.map(&:join).join("\n")
   end
 end

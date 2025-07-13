@@ -25,24 +25,33 @@ class Game
   end
 
   def take_turn(player = @current_player)
-    puts "Player #{player.symbol}"
+    Interface.display_player(player.symbol)
     row = false
     until row
       chosen_column = Interface.retrieve_column(Board::NUMBER_COLUMNS)
       row = @board.add_piece?(player.symbol, chosen_column)
     end
     @winner = @current_player if board.check_win?(
-      @current_player.symbol, [row, chosen_column]
+      player.symbol, [row, chosen_column]
     )
     @board_full = @board.check_full?
-    @player_number = (@player_number + 1) % @players.length
-    @current_player = @players[@player_number]
     Display.board(@board.board_state)
+    switch_player unless @winner
   end
 
   def play
-    take_turn until @winner || @board_full
-    Interface.print_winner(@current_player.symbol) if @winner
-    Interface.print_full unless @winner
+    until @winner || @board_full
+      take_turn
+      Interface.print_winner(@current_player.symbol) if @winner
+      Interface.print_full unless @winner
+      
+    end
+  end
+
+  private
+
+  def switch_player
+    @player_number = (@player_number + 1) % @players.length
+    @current_player = @players[@player_number]
   end
 end

@@ -10,6 +10,10 @@ module Interface
     end
   end
 
+  def self.display_player(symbol)
+    puts "Player #{symbol}"
+  end
+
   def self.print_winner(symbol)
     puts "Player #{symbol} wins!"
   end
