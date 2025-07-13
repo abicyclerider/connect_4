@@ -9,4 +9,12 @@ module Interface
       return input if input.between?(0, max_columns - 1)
     end
   end
+
+  def self.print_winner(symbol)
+    puts "Player #{symbol} wins!"
+  end
+
+  def self.print_full
+    puts 'The board is full, please play again'
+  end
 end
