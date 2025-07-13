@@ -19,27 +19,53 @@ describe Game do
         described_class.create_from_beginning
       end
     end
-    describe '#take_turn' do
-      context 'When a user takes a turn it asks the user for a column' do
-        before do
-          allow(game).to receive(:puts)
-        end
-        it 'calls retrieve column on Interface' do
-          expect(Interface).to receive(:retrieve_column).with(Board::NUMBER_COLUMNS)
-          game.take_turn
-        end
+  end
+  describe '#take_turn' do
+    context 'when a player successfully places a piece on first try' do
+      before do
+        allow(Interface).to receive(:retrieve_column).and_return(0)
+        allow(game.board).to receive(:add_piece?).and_return(2)
+        allow(game.board).to receive(:check_win?).and_return(false)
+        allow(game).to receive(:puts)
       end
-      context 'When a user takes a turn and enters an available position' do
-        let(:empty_board) { instance_double(Board, Board::EMPTY_BOARD) }
-        before do
-          allow(game).to receive(:puts)
-          allow(Interface).to receive(:retrieve_column).with(Board::NUMBER_COLUMNS).and_return(0)
-          allow(Board).to receive(:add_piece?).with('X', 0).and_return(true)
-        end
-        it 'adds the piece to the board' do
-          expect(empty_board).to_receive(:add_piece)
-          game.take_turn
-        end
+      it 'calls Interface.retrieve_column with NUMBER_COLUMNS' do
+        expect(Interface).to receive(:retrieve_column).with(Board::NUMBER_COLUMNS)
+        game.take_turn
+      end
+
+      it 'calls add_piece? on board with player symbol and chosen column' do
+        expect(game.board).to receive(:add_piece?).with('X', 0)
+        game.take_turn
+      end
+
+      it 'checks for a winner' do
+        expect(game.board).to receive(:check_win?).with('X', [2, 0])
+        game.take_turn
+      end
+
+      it 'cycles to the next player' do
+        expect { game.take_turn }.to(change { game.instance_variable_get(:@current_player) })
+      end
+
+      it 'displays the changed board state' do
+        expect(Display).to receive(:board)
+        game.take_turn
+      end
+    end
+    context 'when a player makes an invalid move and then a valid move' do
+      before do
+        allow(Interface).to receive(:retrieve_column).and_return(0, 1)
+        allow(game.board).to receive(:add_piece?).and_return(false, 2)
+        allow(game).to receive(:puts)
+      end
+      it 'calls Interface.retrieve_column twice' do
+        expect(Interface).to receive(:retrieve_column).with(Board::NUMBER_COLUMNS).twice
+        game.take_turn
+      end
+      it 'calls add_piece? twice' do
+        expect(game.board).to receive(:add_piece?).with('X', 0).and_return(false)
+        expect(game.board).to receive(:add_piece?).with('X', 1).and_return(2)
+        game.take_turn
       end
     end
   end

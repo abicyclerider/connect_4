@@ -12,7 +12,10 @@ class Game
   def initialize
     @board = Board.empty
     @players = [Player.new('X'), Player.new('O')]
-    @current_player = @players[0]
+    @player_number = 0
+    @current_player = @players[@player_number]
+    @winner = nil
+    @board_full = false
   end
 
   def self.create_from_beginning
@@ -23,10 +26,14 @@ class Game
 
   def take_turn(player = @current_player)
     puts "Player #{player.symbol}"
-    success = false
-    until success
+    row = false
+    until row
       chosen_column = Interface.retrieve_column(Board::NUMBER_COLUMNS)
-      success = @board.add_piece?(player.symbol, chosen_column)
+      row = @board.add_piece?(player.symbol, chosen_column)
     end
+    @winner = @current_player if board.check_win?(@current_player.symbol, [row, chosen_column])
+    @player_number = (@player_number + 1) % @players.length
+    @current_player = @players[@player_number]
+    Display.board(@board.board_state)
   end
 end

@@ -22,7 +22,7 @@ class Board
     return false unless row
 
     @board_state[row][column_index] = symbol
-    true
+    row
   end
 
   def check_win?(symbol, position)
@@ -38,6 +38,10 @@ class Board
   def find_empty_row(column_index)
     column = @board_state.map { |row| row[column_index] }
     column.find_index { |element| element == EMPTY_POSITION }
+  end
+
+  def check_full?
+    @board_state.last.none? { |cell| cell == EMPTY_POSITION }
   end
 
   private

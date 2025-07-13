@@ -60,7 +60,7 @@ describe Board do
       it 'adds the piece to the second column' do
         result = diagonal_board.add_piece?('X', 1)
         expect(diagonal_board.board_state).to eq(piece_added)
-        expect(result).to be true
+        expect(result).to eq(5)
       end
     end
   end
@@ -106,6 +106,25 @@ describe Board do
       it 'returns false for non-linear connection' do
         result = connected.check_win?('X', [1, 6])
         expect(result).to be false
+      end
+    end
+    describe '#check_full?' do
+      context 'When the board is not full' do
+        subject(:empty_board) { described_class.new(Board::EMPTY_BOARD) }
+        it 'returns false' do
+          result = empty_board.check_full?
+          expect(result).to be false
+        end
+      end
+      context 'when the board is full' do
+        subject(:full_board) do
+          full_board = Array.new(Board::NUMBER_ROWS) { Array.new(Board::NUMBER_COLUMNS) { 'X' } }
+          described_class.new(full_board)
+        end
+        it 'returns true' do
+          result = full_board.check_full?
+          expect(result).to be true
+        end
       end
     end
   end
